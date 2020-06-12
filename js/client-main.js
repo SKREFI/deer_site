@@ -4,7 +4,7 @@ console.log("Deer's up!");
 
 // ----- CONSTANTS -----
 // const BASE_URL = 'http://localhost:5000' // NodeJS API link
-const BASE_URL = 'bc37039ee998.ngrok.io/' // For Ngrok app
+const BASE_URL = 'http://bc37039ee998.ngrok.io' // For Ngrok app
 
 // ----- HTML Views -----
 const form = document.getElementById('post_form');
