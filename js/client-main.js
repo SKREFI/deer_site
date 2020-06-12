@@ -212,7 +212,7 @@ function getAllPosts() {
 						getAllPosts()
 					});
 			};
-			firstDiv.appendChild(dotsElem)
+// 			firstDiv.appendChild(dotsElem)
 
 			//Second Div which contains the likes and buttons
 			const secDiv = document.createElement('div')
