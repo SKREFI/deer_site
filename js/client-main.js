@@ -75,7 +75,7 @@ points_button.addEventListener('click', () => {
 });
 logout_button.addEventListener('click', () => {
 	// redirect to auth page where we log out anyways
-	window.location = '../auth/index.html';
+	window.location = '/auth/index.html';
 });
 
 // ----- Main - Posts -----
