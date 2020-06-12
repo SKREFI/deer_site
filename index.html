@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Deer</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="src/deerdone.png">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="styles/bootstrap.css">
+    <!-- Skeleton -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+    <!-- My CSS -->
+    <link rel="stylesheet" href="styles/navbar.css">
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <ul class="navbar-nav">
+            <li class="logo">
+                <a href="#" class="nav-link">
+                    <span class="link-text logo-text">Deer</span>
+                    <svg aria-hidden="true" focusable="false" data-prefix="fad" data-icon="angle-double-right"
+                        role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"
+                        class="svg-inline--fa fa-angle-double-right fa-w-14 fa-5x">
+                        <g class="fa-group">
+                            <path fill="currentColor"
+                                d="M224 273L88.37 409a23.78 23.78 0 0 1-33.8 0L32 386.36a23.94 23.94 0 0 1 0-33.89l96.13-96.37L32 159.73a23.94 23.94 0 0 1 0-33.89l22.44-22.79a23.78 23.78 0 0 1 33.8 0L223.88 239a23.94 23.94 0 0 1 .1 34z"
+                                class="fa-secondary"></path>
+                            <path fill="currentColor"
+                                d="M415.89 273L280.34 409a23.77 23.77 0 0 1-33.79 0L224 386.26a23.94 23.94 0 0 1 0-33.89L320.11 256l-96-96.47a23.94 23.94 0 0 1 0-33.89l22.52-22.59a23.77 23.77 0 0 1 33.79 0L416 239a24 24 0 0 1-.11 34z"
+                                class="fa-primary"></path>
+                        </g>
+                    </svg>
+                </a>
+            </li>
+
+            <li class="nav-item" id="admin_button">
+                <a href="#" class="nav-link">
+                    <img src="src/admin.svg" alt="">
+                    <span class="link-text">Admin</span>
+                </a>
+            </li>
+
+            <li class="nav-item" id="chat_button">
+                <a href="#" class="nav-link">
+                    <img src="src/chat.svg" alt="">
+                    <span class="link-text">Chat</span>
+                </a>
+            </li>
+
+            <li class="nav-item" id="points_button">
+                <a href="#" class="nav-link">
+                    <img src="src/rank.svg" alt="">
+                    <span class="link-text">Rank</span>
+                </a>
+            </li>
+
+            <li class="nav-item" id="logout_button">
+                <a class="nav-link" href="#">
+                    <img src="src/logout.svg" alt="">
+                    <span class="link-text">Logout</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div id="post-modal-content" class="modal-content">
+                <div class="modal-header"></div>
+                <div class="modal-body">
+                    <!-- <div class="comment">
+                            <div>
+                                <img src="https://robohash.org/' + comment.uid + '_' + post._id">
+                                <p> + comment.content + </p>
+                            </div>
+                        </div> -->
+                </div>
+
+                <div class="modal-footer">
+                    <form id="comment_form" class="my-form">
+                        <textarea class="u-full-width" type="text" id="content" name="content"
+                            placeholder="You sure got somthing of value to add!"></textarea>
+                        <button id="comment_send_button"></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <form id="post_form" class="my-form">
+            <textarea class="u-full-width" type="text" id="content" name="content"
+                placeholder="What's on your mind?"></textarea>
+            <button id="send_button"></button>
+        </form>
+        <div class=loading><img src="src/loading.gif"></div>
+        <div class="posts-container"></div>
+        <div id="snackbar"></div>
+    </main>
+
+    <!-- jQuerry -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="js/bootstrap-modal.js"></script>
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/7.14.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-auth.js"></script>
+    <!-- My JS -->
+    <script src="js/client-main.js"></script>
+</body>
+
+</html>
+
+
+
+<!-- <div class="post">                
+                <div>
+                    <img src="https://robohash.org/GJ4SsXQF9IfVyirXiaKe2L8nwJa2_5ebd1524d1cc954e42adc5bf">
+                    <p>Final test please work now</p>
+                    <img src="src/tdot.svg">
+                </div>
+                <div class="likes_section">
+                    <button>Meh</button>
+                    <p>1</p>
+                    <button>Cool</button>
+                </div>
+            </div> -->

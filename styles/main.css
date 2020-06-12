@@ -1,0 +1,190 @@
+:root {
+	font-size: 10px;
+	--primary-color: #fac02e;
+	--second-color: #c49000;
+	--third-color: #5d4837;
+
+	background-color: var(--primary-color);
+}
+
+main {
+	padding-top: 15px;
+}
+
+.my-form {
+	display: flex;
+	width: 48%;
+	margin: 0 auto;
+}
+
+@media only screen and (max-width: 660px) {
+	/* For mobiles / Small Screens */
+	.my-form {
+		width: 96%;
+	}
+}
+
+.loading {
+	text-align: center;
+}
+
+textarea {
+	background-color: var(--second-color);
+	border-color: var(--third-color);
+	resize: none;
+	height: 10rem;
+}
+
+button {
+	border-color: var(--third-color);
+	background-color: var(--second-color);
+}
+
+form button {
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+	background-color: var(--primary-color);
+	height: 10rem;
+	width: 10rem;
+	border: none;
+	background-image: url(../src/deerdone.png);
+}
+
+.posts-container {
+	width: 50%;
+	/* height: 650px; */
+	margin: 0 auto;
+	margin-bottom: 80px;
+}
+
+@media only screen and (max-width: 650px) {
+	/* For mobiles / Small Screens */
+	.posts-container {
+		width: 100%;
+	}
+}
+
+.post div:nth-child(1) {
+	display: flex;
+	background-color: var(--second-color);
+	margin: 2% 2% 0 2%;
+	border-radius: 20px 20px 0 0;
+}
+
+/* Robots Image */
+.post img:nth-child(1) {
+	/* margin: .5%; */
+	height: 10rem;
+}
+
+/* Three Dot Image */
+.post img:nth-child(3) {
+	min-width: 5rem;
+	width: 5rem;
+	margin: auto 0 auto auto;
+}
+
+.post div:nth-child(1) p {
+	/* background-color: red; */
+	margin: auto 6rem auto 0;
+}
+
+.likes_section {
+	display: flex;
+	justify-content: space-around;
+	/* margin: 0 7% 2% 7%; */
+	padding-top: 1%;
+	margin: 0% 2% 0 2%;
+	background-color: var(--second-color);
+	border-radius: 0 0 20px 20px;
+}
+
+/* Snack Bar */
+#snackbar {
+	visibility: hidden;
+	/* min-width: 500px; */
+	min-width: 50rem;
+	margin-left: -27rem;
+	background-color: var(--third-color);
+	color: var(--primary-color);
+	/* color: #fff; */
+	text-align: center;
+	border-radius: 22px;
+	padding: 16px;
+	position: fixed;
+	z-index: 1;
+	left: 50%;
+	bottom: 30px;
+	font-size: 20px;
+}
+
+#snackbar.show {
+	visibility: visible;
+	-webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+	animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadein {
+	from {
+		bottom: 0;
+		opacity: 0;
+	}
+	to {
+		bottom: 30px;
+		opacity: 1;
+	}
+}
+
+@keyframes fadein {
+	from {
+		bottom: 0;
+		opacity: 0;
+	}
+	to {
+		bottom: 30px;
+		opacity: 1;
+	}
+}
+
+@-webkit-keyframes fadeout {
+	from {
+		bottom: 30px;
+		opacity: 1;
+	}
+	to {
+		bottom: 0;
+		opacity: 0;
+	}
+}
+
+@keyframes fadeout {
+	from {
+		bottom: 30px;
+		opacity: 1;
+	}
+	to {
+		bottom: 0;
+		opacity: 0;
+	}
+}
+
+/* Scroll Bar */
+/* width */
+::-webkit-scrollbar {
+	width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	background: var(--second-color);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: #fac02e;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: var(--third-color);
+}

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Deer - Login</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="../src/deerdone.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <!-- Form containg basically everything -->
+  <form class="box" action="index.html" method="post">
+    <h1 style="color: var(--primary-color);">Login</h1>
+    <!-- Email input box -->
+    <input type="email" id="emial" name="email" placeholder="Email">
+    <!-- Password imput box -->
+    <input type="password" id="password" name="password" placeholder="Password">
+    <!-- 2nd password if registering -->
+    <input style="visibility: hidden;" type="password" id="password2" name="password2" placeholder="Retype password">
+    <!-- submit button -->
+    <input type="submit" id="auth" name="auth" value="Login">
+    <div id="error_message" style="visibility: hidden; margin-bottom: 1rem; color: #f00;"></div>
+    <!-- toggle switch login/register -->
+    <div onclick="changeState()" id="toggle-btn" class="toggle-btn">
+      <div class="inner-circle">Login</div>
+    </div>
+  </form>
+  <script src="https://www.gstatic.com/firebasejs/7.14.3/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-auth.js"></script>
+  <script src="auth.js"></script>
+</body>
+
+</html>
