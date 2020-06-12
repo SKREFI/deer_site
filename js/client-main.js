@@ -117,7 +117,7 @@ function getAllPosts() {
 	postsElement.innerHTML = '';
 	showHide(loadingElement, null);
 	// GET Request to get the list of posts
-	fetch('http://bc37039ee998.ngrok.io/posts').then((response) => response.json()).then((posts) => {
+	fetch('https://bc37039ee998.ngrok.io/posts').then((response) => response.json()).then((posts) => {
 		posts.reverse();
 		posts.forEach((post) => {
 			// Creating the 'post' container (the samll container in the list)
