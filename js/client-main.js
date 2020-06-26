@@ -3,7 +3,8 @@ console.log("Deer's up!");
 //geting the firebase user from the local storage !!! NOT WORKING !! :(
 
 // ----- CONSTANTS -----
-const BASE_URL = 'http://localhost:5000'; // NodeJS API link
+const BASE_URL = 'http://localhost:8080' // NodeJS API link
+// const BASE_URL = 'http://bc37039ee998.ngrok.io' // For Ngrok app
 
 // ----- HTML Views -----
 const form = document.getElementById('post_form');
@@ -11,10 +12,17 @@ const loadingElement = document.querySelector('.loading'); // Loading GIF
 loadingElement.style.display = 'none'; // Hiding the loading GIF
 const postsElement = document.querySelector('.posts-container');
 
+// Navigation Bar Buttons
 const admin_button = document.getElementById('admin_button');
 const chat_button = document.getElementById('chat_button');
 const points_button = document.getElementById('points_button');
 const logout_button = document.getElementById('logout_button');
+
+// Comments Modal Constants
+const modal_header = document.querySelector('#post-modal-content .modal-header') 	// used to set th
+const modal_body = document.querySelector('#post-modal-content .modal-body') 	// used to set/display comments
+const comment_form = document.getElementById('comment_form');
+const comment_send_button = document.getElementById('comment_send_button')
 
 loadingElement.style.display = null;
 
@@ -22,7 +30,7 @@ loadingElement.style.display = null;
 
 // Checking if guest
 function isGuest(message = '') {
-	if (uid == 'guest') {
+	if (uid === 'guest' || uid == undefined) {
 		if (message.length > 0) showSnack(message);
 		return true;
 	}
@@ -44,29 +52,87 @@ function showSnack(message, seconds = 3) {
 }
 
 // Geting UID from indexedDB
-var uid = 'guest';
-var objectStore;
-const request = window.indexedDB.open('firebaseLocalStorageDb');
+var uid = 'guest'
+var objectStore
+const request = window.indexedDB.open('firebaseLocalStorageDb')
 request.onerror = function (event) {
-	console.err('Event fething indexDB', event);
+	console.err('Event fething indexDB', event)
 };
+
+var isAdmin = null
 request.onsuccess = function (dbEvent) {
 	const db = request.result;
-	const transaction = db.transaction(['firebaseLocalStorage']);
-	objectStore = transaction.objectStore('firebaseLocalStorage');
+	const transaction = db.transaction(['firebaseLocalStorage'])
+	objectStore = transaction.objectStore('firebaseLocalStorage')
 	if ('getAll' in objectStore) {
 		objectStore.getAll().onsuccess = function (getAllEvent) {
 			// event.target.result = a list of elements
 			// .value is the hole user object
-			uid = event.target.result[event.target.result.length - 1].value.uid;
+			uid = event.target.result[event.target.result.length - 1].value.uid
+
+			if (isAdmin == null) {
+				fetch(BASE_URL + '/isadmin', {
+					method: 'POST',
+					body: JSON.stringify({ uid: uid }),
+					headers: {
+						'content-type': 'application/json'
+					}
+				})
+					.then(response => response.json())
+					.then(response => {
+						if (response)
+							admin_button.classList.remove('hidden')
+					})
+			}
 		};
 	}
 };
 
+
 // ----- Main - Navbar -----
+const admin_modal_body = document.querySelector('#admin-modal .modal-body')
+const admin_modal_form_button = document.querySelector('#admin-modal button')
+const admin_form = document.getElementById('admin_form')
+
 admin_button.addEventListener('click', () => {
-	showSnack('Admin Pressed');
+	$('#admin-modal').modal()
+	
+	admin_modal_body.innerHTML = ''
+
+	fetch(BASE_URL + '/admins')
+		.then(response => response.json())
+		.then(response => {
+			response.forEach(item => {
+				const uid_element = '<div class="comment"><div><p>' + item + '</p><img style="margin-left: auto;" src="src/tdot.svg"></div></div>'  
+				admin_modal_body.innerHTML += uid_element
+			})
+		})
+
+	
+	
+	admin_modal_form_button.onclick = (e) => {
+		e.stopPropagation()
+		e.preventDefault()
+		const formData = new FormData(admin_form); // Getting the data from the from
+		const content = formData.get('content');
+		fetch(BASE_URL + '/addadmin', {
+			method: 'POST',
+			body: JSON.stringify({ uid: content }),
+			headers: {
+				'content-type': 'application/json'
+			}
+		}).then(response => response.json())
+			.then(response => {
+				if (response == 'already'){
+					showSnack('User is already an admin')
+				} else {
+					const uid_element = '<div class="comment"><div><p>' + content + '</p></div></div>'
+					admin_modal_body.innerHTML += uid_element
+				}
+			})
+	}
 });
+
 chat_button.addEventListener('click', () => {
 	showSnack('Chat Pressed');
 });
@@ -75,12 +141,17 @@ points_button.addEventListener('click', () => {
 });
 logout_button.addEventListener('click', () => {
 	// redirect to auth page where we log out anyways
-	window.location = '../auth/index.html';
+	window.location = '/auth/index.html';
 });
 
 // ----- Main - Posts -----
 getAllPosts();
 
+// $(function () {
+// 	$('[data-toggle="popover"]').popover()
+// })
+
+// Handle New Post
 form.addEventListener('submit', (event) => {
 	event.preventDefault();
 	if (isGuest("You can't post as a guest. Please login!")) {
@@ -100,17 +171,16 @@ form.addEventListener('submit', (event) => {
 		}
 	})
 		.then((response) => response.json())
-		.then((createdPost) => {
+		.then((response) => {
+			if (response.message === 'Content too short.') {
+				showSnack(response.message)
+				return
+			}
 			form.reset();
 			getAllPosts();
 		})
 })
 
-const modal_header = document.querySelector('#post-modal-content .modal-header') 	// used to set th
-const modal_body = document.querySelector('#post-modal-content .modal-body') 	// used to set/display comments
-
-const comment_form = document.getElementById('comment_form');
-const comment_send_button = document.getElementById('comment_send_button')
 
 function getAllPosts() {
 	postsElement.innerHTML = '';
@@ -126,10 +196,10 @@ function getAllPosts() {
 				// Whole post pressed
 				e.stopPropagation();
 				// Opening the modal
-				$('#modal').modal();
+				$('#comments-modal').modal();
 
 				// set the modal header
-				const modal_comment_post = '<div class="post"><div><img src="https://robohash.org/' + post.uid + '_' + post._id + '"><p>' + post.content +'</p></div></div>'
+				const modal_comment_post = '<div class="post"><div><img src="https://robohash.org/' + post.uid + '_' + post._id + '"><p>' + post.content + '</p></div></div>'
 				modal_header.innerHTML = modal_comment_post
 
 				// get comments
@@ -137,7 +207,7 @@ function getAllPosts() {
 				fetch(BASE_URL + '/comments?pid=' + post._id)
 					.then(response => response.json())
 					.then(response => {
-						if (response.length){
+						if (response.length) {
 							response = JSON.parse(response)
 							response.forEach(comment => {
 								const comment_element = '<div class="comment"><div><img src="https://robohash.org/' + comment.uid + '_' + post._id + '"><p>' + comment.content + '</p></div></div>'
@@ -159,8 +229,6 @@ function getAllPosts() {
 					const pid = post._id
 					const comment = { pid, uid, content };
 
-
-					
 					comment_form.reset()
 					fetch(BASE_URL + '/comment', {
 						method: 'POST',
@@ -168,11 +236,13 @@ function getAllPosts() {
 						headers: {
 							'content-type': 'application/json'
 						}
-					})
+					})  .then(response => response.json())
 						.then(response => {
-							if (response.status == 200) {
+							if (response === "done") {
 								const comment_element = '<div class="comment"><div><img src="https://robohash.org/' + uid + '_' + pid + '"><p>' + content + '</p></div></div>'
 								modal_body.innerHTML += comment_element
+							} else {
+								showSnack(response.message)
 							}
 						})
 				}

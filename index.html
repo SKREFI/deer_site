@@ -9,7 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="src/deerdone.png">
     <!-- Bootstrap -->
-    <link rel="stylesheet" href="styles/bootstrap.css">
+    <link rel="stylesheet" href="styles/bs-modal.css">
+    <link rel="stylesheet" href="styles/bs-dropdown.css">
     <!-- Skeleton -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
     <!-- My CSS -->
@@ -38,7 +39,7 @@
                 </a>
             </li>
 
-            <li class="nav-item" id="admin_button">
+            <li class="nav-item hidden" id="admin_button">
                 <a href="#" class="nav-link">
                     <img src="src/admin.svg" alt="">
                     <span class="link-text">Admin</span>
@@ -68,19 +69,11 @@
         </ul>
     </nav>
 
-    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal fade" id="comments-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div id="post-modal-content" class="modal-content">
                 <div class="modal-header"></div>
-                <div class="modal-body">
-                    <!-- <div class="comment">
-                            <div>
-                                <img src="https://robohash.org/' + comment.uid + '_' + post._id">
-                                <p> + comment.content + </p>
-                            </div>
-                        </div> -->
-                </div>
-
+                <div class="modal-body"></div>
                 <div class="modal-footer">
                     <form id="comment_form" class="my-form">
                         <textarea class="u-full-width" type="text" id="content" name="content"
@@ -92,6 +85,22 @@
         </div>
     </div>
 
+    <div class="modal fade" id="admin-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">List of admins:</div>
+                <div class="modal-body"></div>
+                <div class="modal-footer">
+                    <form id="admin_form" class="my-form">
+                        <textarea class="u-full-width" type="text" id="content" name="content"
+                            placeholder="uid here"></textarea>
+                        <button>Add UID</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+     
     <main>
         <form id="post_form" class="my-form">
             <textarea class="u-full-width" type="text" id="content" name="content"
@@ -105,8 +114,11 @@
 
     <!-- jQuerry -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Poopers JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <!-- Bootstrap -->
-    <script src="js/bootstrap-modal.js"></script>
+    <script src="js/bs-dropdown.js"></script>
+    <script src="js/bs-modal.js"></script>
     <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/7.14.3/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-auth.js"></script>
@@ -115,7 +127,6 @@
 </body>
 
 </html>
-
 
 
 <!-- <div class="post">                

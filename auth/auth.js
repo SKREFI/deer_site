@@ -8,6 +8,26 @@ const submit_button = document.getElementById('auth')
 const password2 = document.getElementById('password2')
 const error_view = document.getElementById('error_message')
 
+// Block login after n failed attempts in inteval ammount of secconds
+const allowed_attemtps = 5 	// tries
+const interval = 60    		// seconds
+var login_attempts = JSON.parse(localStorage.getItem('attempts')) || [] 
+
+console.log('Time passed', (new Date().getTime() - localStorage.getItem('blocked_at')) / 1000)
+
+if (((new Date().getTime() - localStorage.getItem('blocked_at')) / 1000) > interval) {
+	submit_button.style.visibility = 'visible'
+	error_view.innerHTML = ''
+	error_view.style.visibility = 'hidden'
+} else {
+	submit_button.style.visibility = 'hidden'
+	console.log(parseInt((new Date().getTime() - localStorage.getItem('blocked_at')) / 1000))
+	error_view.innerHTML = 'You have to wait ' +
+		parseInt(interval - (new Date().getTime() - localStorage.getItem('blocked_at')) / 1000) +
+		' seconds before being able to log in!' 
+	error_view.style.visibility = 'visible'
+}
+
 var firebaseConfig = {
 	apiKey: 'AIzaSyD51GbfHASRiQK7JNfWwt4D4EBHbIzk4p8',
 	authDomain: 'deer-skrefi.firebaseapp.com',
@@ -20,10 +40,9 @@ var firebaseConfig = {
 }
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig)
-console.log('Initialized firebase!')
 
 firebase.auth().signOut().then(() => {
-	console.log('Signed out.')
+	
 }).catch(error => {
 	console.log('Something went wrong.')
 })
@@ -31,8 +50,8 @@ firebase.auth().signOut().then(() => {
 // Check when Login/Register Button is pressed.
 const form = document.querySelector('form')
 form.addEventListener('submit', (event) => {
-	error_view.innerHTML = ''
-	error_view.style.visibility = 'hidden'
+	// error_view.innerHTML = ''
+	// error_view.style.visibility = 'hidden'
 	event.preventDefault()
 	const formData = new FormData(form)
 	const email = formData.get('email')
@@ -52,23 +71,32 @@ form.addEventListener('submit', (event) => {
 	}
 	// Treat exceptions, and by this I mean show the user a nice message
 	promise.catch((e) => {
+		const time = new Date().getTime()
+		if (login_attempts.length > allowed_attemtps){
+			const time_passed = (login_attempts[allowed_attemtps] - login_attempts[0]) / 1000 // seconds
+			if (time_passed < interval){
+				localStorage.setItem('blocked_at', new Date().getTime())
+				submit_button.style.visibility = 'hidden'
+				error_view.style.visibility = null
+				error_view.innerHTML = 'Too many attempts in a short period of time, please wait ' + interval + ' seconds before logging in again'
+				localStorage.removeItem('attempts')
+				return
+			}
+			login_attempts.shift()
+		}
+		login_attempts.push(time)
+		localStorage.setItem('attempts', JSON.stringify(login_attempts))
+
 		console.log(e)
 		error_view.innerHTML = e.message
-		if (error_view.innerHTML != ''){
-			error_view.style.visibility = null
-		}
+		// if (error_view.innerHTML != ''){
+		// 	error_view.style.visibility = null
+		// }
 	})
 })
 
-
 firebase.auth().onAuthStateChanged(user => {
-	if (user) {
-		// localStorage.setItem('user_id', user)
-		
-		window.location = '../index.html'
-	} else {
-		console.log('Not logged in.')
-	}
+	if (user) window.location = '../index.html'
 })
 
 function changeState() {

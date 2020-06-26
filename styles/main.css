@@ -99,6 +99,20 @@ form button {
 	border-radius: 0 0 20px 20px;
 }
 
+
+/* Admins Modal */
+#admin-modal .modal-header {
+	font-size: 3rem;
+}
+
+#admin-modal button {
+	background-image: none;	
+}
+
+#admin-modal .comment {
+	margin: 2rem;
+}
+
 /* Snack Bar */
 #snackbar {
 	visibility: hidden;
@@ -112,7 +126,7 @@ form button {
 	border-radius: 22px;
 	padding: 16px;
 	position: fixed;
-	z-index: 1;
+	z-index: 9001;
 	left: 50%;
 	bottom: 30px;
 	font-size: 20px;
