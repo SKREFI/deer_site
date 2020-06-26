@@ -3,8 +3,9 @@ console.log("Deer's up!");
 //geting the firebase user from the local storage !!! NOT WORKING !! :(
 
 // ----- CONSTANTS -----
-const BASE_URL = 'http://localhost:8080' // NodeJS API link
-// const BASE_URL = 'http://bc37039ee998.ngrok.io' // For Ngrok app
+// const BASE_URL = 'http://localhost:8080' 		// local host
+// const BASE_URL = 'http://bc37039ee998.ngrok.io' 	// Ngrok app URL
+const BASE_URL = 'http://34.107.45.244:8080'		// GCP VM Instance Link
 
 // ----- HTML Views -----
 const form = document.getElementById('post_form');
