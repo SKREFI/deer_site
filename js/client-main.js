@@ -3,9 +3,9 @@ console.log("Deer's up!");
 //geting the firebase user from the local storage !!! NOT WORKING !! :(
 
 // ----- CONSTANTS -----
-// const BASE_URL = 'http://localhost:8080' 		// local host
-// const BASE_URL = 'http://bc37039ee998.ngrok.io' 	// Ngrok app URL
-const BASE_URL = 'http://34.107.45.244:8080'		// GCP VM Instance Link
+const BASE_URL = 'http://localhost:8080' 	    // local host
+// const BASE_URL = 'http://bc37039ee998.ngrok.io' 	// ngrok app URL
+// const BASE_URL = 'http://34.107.45.244:8080'		// GCP VM Instance Link
 
 // ----- HTML Views -----
 const form = document.getElementById('post_form');
@@ -100,7 +100,7 @@ admin_button.addEventListener('click', () => {
 	
 	admin_modal_body.innerHTML = ''
 
-	fetch(BASE_URL + '/admins')
+	fetch(BASE_URL + '/admins?uid=' + uid)
 		.then(response => response.json())
 		.then(response => {
 			response.forEach(item => {
@@ -108,15 +108,13 @@ admin_button.addEventListener('click', () => {
 				admin_modal_body.innerHTML += uid_element
 			})
 		})
-
-	
 	
 	admin_modal_form_button.onclick = (e) => {
 		e.stopPropagation()
 		e.preventDefault()
 		const formData = new FormData(admin_form); // Getting the data from the from
 		const content = formData.get('content');
-		fetch(BASE_URL + '/addadmin', {
+		fetch(BASE_URL + '/addadmin?uid=' + uid, {
 			method: 'POST',
 			body: JSON.stringify({ uid: content }),
 			headers: {
@@ -266,7 +264,8 @@ function getAllPosts() {
 				fetch(BASE_URL + '/delete', {
 					method: 'POST',
 					body: JSON.stringify({
-						_id: post._id
+						_id: post._id,
+						uid: uid
 					}),
 					headers: {
 						'content-type': 'application/json'
