@@ -3,9 +3,9 @@ console.log("Deer's up!");
 //geting the firebase user from the local storage !!! NOT WORKING !! :(
 
 // ----- CONSTANTS -----
-const BASE_URL = 'http://localhost:8080' 	    // local host
+// const BASE_URL = 'http://localhost:8080' 	    // local host
 // const BASE_URL = 'http://bc37039ee998.ngrok.io' 	// ngrok app URL
-// const BASE_URL = 'http://34.107.45.244:8080'		// GCP VM Instance Link
+const BASE_URL = 'http://34.107.45.244:8080'		// GCP VM Instance Link
 
 // ----- HTML Views -----
 const form = document.getElementById('post_form');
@@ -70,6 +70,10 @@ request.onsuccess = function (dbEvent) {
 			// event.target.result = a list of elements
 			// .value is the hole user object
 			uid = event.target.result[event.target.result.length - 1].value.uid
+
+			// Changing text to Loggin if guest
+			// ASK: Select cu jQuery (#locout_button > span) ?
+			if (uid === 'guest') document.querySelector('#logout_button span').innerHTML = 'Login'
 
 			if (isAdmin == null) {
 				fetch(BASE_URL + '/isadmin', {
@@ -138,6 +142,7 @@ chat_button.addEventListener('click', () => {
 points_button.addEventListener('click', () => {
 	showSnack('Points Pressed');
 });
+
 logout_button.addEventListener('click', () => {
 	// redirect to auth page where we log out anyways
 	window.location = 'auth/index.html';
