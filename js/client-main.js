@@ -74,7 +74,7 @@ request.onsuccess = function (dbEvent) {
 
 			// Changing text to Loggin if guest
 			// ASK: Select cu jQuery (#locout_button > span) ?
-			if (uid === 'guest') document.querySelector('#logout_button span').innerHTML = 'Login'
+			if (uid === 'guest' || uid == undefined) document.querySelector('#logout_button span').innerHTML = 'Login'
 
 			if (isAdmin == null) {
 				fetch(BASE_URL + '/isadmin', {
