@@ -4,7 +4,7 @@ console.log("Deer's up!");
 
 // ----- CONSTANTS -----
 // const BASE_URL = 'http://localhost:8080' 	    // local host
-const BASE_URL = 'https://950a6583fed7.ngrok.io' 	// ngrok app URL
+const BASE_URL = 'https://0996ee561588.ngrok.io' 	// ngrok app URL
 // const BASE_URL = 'http://34.107.45.244:8080'		// GCP VM Instance Link
 // const BASE_URL = 'http://deer.troglobyte.cc:8080'   // Domeniul lui Valentin
 
